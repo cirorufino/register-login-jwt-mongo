@@ -1,0 +1,234 @@
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+}
+
+.page-container {
+  width: 100%;
+}
+
+.page-container .sign-in {
+  margin: 20px 50px;
+  border: 1px solid #FFC914;
+  border-radius: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.page-container .sign-in .login-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 150px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: #FFC914;
+  border: none;
+  -webkit-box-shadow: 0 0 10px #2E282A;
+          box-shadow: 0 0 10px #2E282A;
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.page-container .sign-in h1 {
+  color: #2E282A;
+  padding-top: 10px;
+  font-family: 'Baloo 2', cursive;
+}
+
+.page-container .sign-in #reg-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px;
+}
+
+.page-container .sign-in #reg-form #username,
+.page-container .sign-in #reg-form #password {
+  width: 300px;
+  height: 30px;
+  margin-top: 20px;
+  text-align: center;
+  border: 1px solid #FFC914;
+  border-radius: 20px;
+}
+
+.page-container .sign-in #reg-form input::-webkit-input-placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .sign-in #reg-form input:-ms-input-placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .sign-in #reg-form input::-ms-input-placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .sign-in #reg-form input::placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .sign-in #reg-form input:focus {
+  border: none !important;
+  outline: none !important;
+  -webkit-box-shadow: 0 0 10px #69DC9E;
+          box-shadow: 0 0 10px #69DC9E;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .sign-in #reg-form input[type=submit] {
+  margin-top: 20px;
+  width: 150px;
+  height: 30px;
+  background-color: #69DC9E;
+  border-radius: 20px;
+  border: none;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+  cursor: pointer;
+}
+
+.page-container .login-container {
+  margin: 20px 50px;
+  border: 1px solid #FFC914;
+  border-radius: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.page-container .login-container .signin-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 150px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: #FFC914;
+  border: none;
+  -webkit-box-shadow: 0 0 10px #2E282A;
+          box-shadow: 0 0 10px #2E282A;
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.page-container .login-container h1 {
+  color: #2E282A;
+  padding-top: 10px;
+  font-family: 'Baloo 2', cursive;
+}
+
+.page-container .login-container #login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px;
+}
+
+.page-container .login-container #login #username,
+.page-container .login-container #login #password {
+  width: 300px;
+  height: 30px;
+  margin-top: 20px;
+  text-align: center;
+  border: 1px solid #FFC914;
+  border-radius: 20px;
+}
+
+.page-container .login-container #login input::-webkit-input-placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .login-container #login input:-ms-input-placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .login-container #login input::-ms-input-placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .login-container #login input::placeholder {
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .login-container #login input:focus {
+  border: none !important;
+  outline: none !important;
+  -webkit-box-shadow: 0 0 10px #69DC9E;
+          box-shadow: 0 0 10px #69DC9E;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+}
+
+.page-container .login-container #login input[type=submit] {
+  margin-top: 20px;
+  width: 150px;
+  height: 30px;
+  background-color: #69DC9E;
+  border-radius: 20px;
+  border: none;
+  font-family: 'Baloo 2', cursive;
+  font-size: large;
+  cursor: pointer;
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,13 @@
+@import '_variables';
+
+*{
+    padding: 0;
+    margin: 0; 
+    text-decoration: none;
+}
+
+.page-container{
+    width: 100%;
+    @import '_registration';
+    @import '_login';
+}
