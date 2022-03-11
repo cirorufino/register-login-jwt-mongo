@@ -1,10 +1,12 @@
 const form = document.querySelector('#login');
 form.addEventListener('submit', login);
+const errors = document.querySelector('.errors');
 
 async function login(event) {
     event.preventDefault();
     const username = document.querySelector('#username').value;
     const password = document.querySelector('#password').value;
+    errors.innerHTML='';
 
     const result = await fetch('/api/login', {
         method: 'POST',
@@ -18,10 +20,11 @@ async function login(event) {
     }).then((res) => res.json())
 
     if (result.status === 'ok') {
-        console.log('Got the token: ', result.data);
-        localStorage.setItem('token', result.data);
-        alert('Accesso eseguito')
+        location.assign('/main-menu');
     } else {
-        alert(result.error);
+        let li = document.createElement("LI");
+        let liTxt = document.createTextNode(result.error);
+        li.appendChild(liTxt);
+        errors.appendChild(li);
     }
 }

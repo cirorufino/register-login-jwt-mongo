@@ -75,4 +75,21 @@
             cursor: pointer;
         }
     }
+
+    .errors {
+        width: 250px;
+        font-family: 'Baloo 2', cursive;
+        font-size: small;
+
+        li {
+            display: flex;
+            justify-content: center;
+            margin: 4px 0px;
+            list-style-type: none;
+            border: 1px solid $error-color;
+            border-radius: 10px;
+            background-color: rgb(252, 203, 203);
+            color: $error-color;
+        }
+    }
 }

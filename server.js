@@ -3,22 +3,33 @@ const path = require ('path');
 const app = express();
 const handle = require('express-handlebars');
 const bodyParser = require ('body-parser');
+const { check, validationResult} = require('express-validator');
 const User = require('./model/user');
 const bcrypt = require('bcrypt');
 const jwt = require ('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const JWT_SECRET = 'jhdyq9uyhbcnakqpud%/&($"FGTHEuhavjhb';
 
 app.engine('.hbs', handle.engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.use("/public", express.static(path.join(__dirname, "public"))); 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 dotenv.config({ path: './config/config.env' });
 connectDB();
 
+const maxAge = 900;
+const createToken = (id, username) => {
+    return jwt.sign({ id, username }, JWT_SECRET, {
+        expiresIn: maxAge //15min
+    })
+}
 
+app.get('*', checkUser);
 
 app.get('/', (req,res) =>{
     res.render('index');
@@ -28,98 +39,95 @@ app.get('/login', (req,res) =>{
     res.render('login');
 })
 
-app.get('/change-password', (req,res) => {
+app.get('/change-password', requireAuth, (req,res) => {
     res.render('change-password');
 })
 
+app.get('/main-menu', requireAuth, (req,res) =>{
+    res.render('mainMenu');
+})
 
-app.post('/change-password', async (req, res) => {
-    try{
-        const { token, newPassword: plainTextPassword } = req.body
-
-        if(!plainTextPassword || typeof plainTextPassword !== 'string'){
-            return res.json({status: 'error', error: 'Password non valida'});
-        }
-        if(plainTextPassword.length < 5 ){
-            return res.json({status: 'error', error: 'Password inferiore di 5 caratteri'});
-        }
-    
-        const user = jwt.verify(token, JWT_SECRET);
-        const _id = user.id
-    
-        const password = await bcrypt.hash(plainTextPassword, 10)
-    
-        await User.updateOne({ _id }, {
-            $set: {password}
-        })
-    
-        res.json({ status : 'ok', })
-    }catch(err){
-        res.json({ status: 'error', err});
-    }
-
+app.get('/logout', (req,res) =>{
+    res.cookie('jwt', '', {maxAge: 1});
+    res.redirect('/login');
 })
 
 
-app.post('/api/login', async(req,res) => {
-    try{
-        const { username, password } = req.body  
-        const user = await User.findOne({ username }).lean()
-    
-        if(!user){
-            return res.json({status: 'error', error: 'invalid username/password'});
-        }
-        if( await bcrypt.compare(password, user.password)){
-            //combination username/password successful
-            const token = jwt.sign({
-                id: user._id, username: user.username
-            }, JWT_SECRET );
-    
-            return res.json({ status: 'ok', data: token})
-        }
-        res.json({status: 'error', error: 'invalid username/password'});
-
-    }catch(err){
-        res.json({status: 'error', err});
-    }
-})
-
-
-app.post('/register', async(req,res)=>{
-    console.log(req.body);
-
-    //Hashing passwords 
-    //bcrypt
+app.post('/register', [
+    check('username')
+        .notEmpty().withMessage('Username cannot be empty')
+        .isLength({min: 5}).withMessage('Username must be at least 5 character'),
+    check('password')
+        .notEmpty().withMessage('Password cannot be empty'),
+],async(req,res)=>{
+    //Hashing passwords  //bcrypt
     const {username, password: plainTextPassword } = req.body
     const password = await bcrypt.hash(plainTextPassword, 10);
-
-    if(!username || typeof plainTextPassword !== 'string'){
-        return res.json({status: 'error', error: 'Username non valido'});
-    }
-    if(!plainTextPassword || typeof plainTextPassword !== 'string'){
-        return res.json({status: 'error', error: 'Password non valida'});
-    }
-    if(plainTextPassword.length < 5 ){
-        return res.json({status: 'error', error: 'Password inferiore di 5 caratteri'});
+    
+    const errors = validationResult(req);
+    console.log(errors);
+    const alert = errors.array();
+    if(!errors.isEmpty()){
+        return res.json({status: 'error', errors: alert});
     }
 
     try{
-        const response = await User.create({
-            username, password
-        })
-        console.log('Utente creato correttamente',response);
+        const response = await User.create({ username, password });
+        const token = createToken(response._id, response.username);
+        res.cookie('jwt', token, {httpOnly:true, maxAge: maxAge*1000}); //15min
     }catch(err){
         if(err.code === 11000){
-            //key duplicata
-            return res.json({ status: 'error', error: 'Username già in uso' });
+            return res.json({ status: 'error', error: 'Username is already use' });
         }
         throw err
     }
     res.json({status: 'ok'})
 })
 
+app.post('/api/login', async(req,res) => {      
+    try{
+        const { username, password } = req.body;
+        const user = await User.login(username, password);
+        const token = createToken(user._id, user.username);
+        res.cookie('jwt', token, {httpOnly:true, maxAge: maxAge*1000}); //15min
+        return res.json({ status: 'ok', data: user._id});
+    }catch(err){
+        res.json({ status: 'error', error: 'Invalid Username/Password'});
+    }
+})
 
+app.post('/change-password', [
+    check('newPassword')
+        .notEmpty().withMessage('Password cannot be empty'),
+],async (req, res) => {
+    try{
+        const { newPassword: plainTextPassword } = req.body
+        const token = req.cookies.jwt; 
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.json({status: 'error', error: errors.array()});
+        }
 
+        if(token){
+            jwt.verify(token, JWT_SECRET, async (err, decodedToken) => {
+                if(err){
+                    console.log(err);
+                }else{
+                    const password = await bcrypt.hash(plainTextPassword, 10);
+                    let user = await User.findByIdAndUpdate(decodedToken.id,{
+                        $set: {password}
+                    });
+                }
+            })
+        }else{
+            res.json({ status: 'error', err});
+        }
+
+        res.json({ status : 'ok', })
+    }catch(err){
+        res.json({ status: 'error', err});
+    }
+})
 
 
 
