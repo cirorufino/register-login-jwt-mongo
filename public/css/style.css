@@ -4,6 +4,51 @@
   text-decoration: none;
 }
 
+.header-container {
+  width: 100%;
+  height: 60px;
+  border: 1px solid black;
+}
+
+.header-container .navbar {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header-container .navbar img {
+  width: 90px;
+  margin-left: 30px;
+}
+
+.header-container .navbar #mainmenu-button {
+  margin-left: 30px;
+}
+
+.header-container .yellow-button {
+  width: 150px;
+  height: 40px;
+  margin: 0px 15px;
+  border-radius: 20px;
+  background-color: #FFC914;
+  border: none;
+  -webkit-box-shadow: 0 0 10px #2E282A;
+          box-shadow: 0 0 10px #2E282A;
+  color: #2E282A;
+  font-family: 'Baloo 2', cursive;
+  font-size: medium;
+  cursor: pointer;
+}
+
 .page-container {
   width: 100%;
 }
@@ -503,5 +548,68 @@
   border-radius: 10px;
   background-color: #fccbcb;
   color: #C03221;
+}
+
+.page-container .card-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.page-container .card-container .cards {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.page-container .card-container .cards .layout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  width: 1680px;
+}
+
+@media screen and (max-width: 1685px) {
+  .page-container .card-container .cards .layout {
+    width: 1280px;
+  }
+}
+
+@media screen and (max-width: 1264px) {
+  .page-container .card-container .cards .layout {
+    width: 840px;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .page-container .card-container .cards .layout {
+    width: 420px;
+  }
 }
 /*# sourceMappingURL=style.css.map */

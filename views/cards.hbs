@@ -1,0 +1,12 @@
+<div class="card-container">
+    <div class="cards">
+        <div class="layout">
+            {{#each data}}
+            <card-element photo="{{this.photo}}" title="{{this.title}}" equip="{{this.equip}}" price="{{this.price}}"
+                delivery="{{this.delivery}}" isOffer="{{this.isOffer}}" available="{{this.available}}" favorites="{{this.favorites}}" _id="{{this._id}}"></card-element>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<script src="../public/components/card.js"></script>

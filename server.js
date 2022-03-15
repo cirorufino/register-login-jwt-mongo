@@ -5,6 +5,8 @@ const handle = require('express-handlebars');
 const bodyParser = require ('body-parser');
 const { check, validationResult} = require('express-validator');
 const User = require('./model/user');
+const Card = require('./model/card');
+const Favorites = require('./model/favorites');
 const bcrypt = require('bcrypt');
 const jwt = require ('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -50,6 +52,67 @@ app.get('/main-menu', requireAuth, (req,res) =>{
 app.get('/logout', (req,res) =>{
     res.cookie('jwt', '', {maxAge: 1});
     res.redirect('/login');
+})
+
+
+app.get('/cards', (req, res) =>{
+    Card.find({}, (err,data) =>{
+        if(!err){
+            res.render('cards',{data});
+        }else{
+            console.log(err);
+        }
+    }).lean();
+})
+
+app.get('/favorites', requireAuth, (req, res) =>{
+    Favorites.find({}, (err, data) => {
+        if(!err){
+            res.render('favorites', {data});
+        }else{
+            console.log(err);
+        }
+    }).lean();
+})
+
+
+
+app.post('/favorites', async (req,res) =>{
+    try{
+        const token = req.cookies.jwt;
+        if(token){
+           jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
+               if(err){
+                   console.log(err);
+               }else{
+                   console.log('da token: ', decodedToken.username);
+               }
+            })
+        }else{
+            return res.json({status: 'error'});
+        }
+
+        let {id} = req.body;
+        // console.log('idtrovato:' , id);
+        let data = await Card.findById(id);
+        // console.log(data);
+        if(data.favorites == "false"){
+            await Card.findByIdAndUpdate(id, {favorites: "true"});
+            data.favorites = "true";
+            await Favorites.insertMany(data);
+        }else{
+            await Card.findByIdAndUpdate(id, {favorites: "false"});
+            data.favorites = "false";
+            await Favorites.findByIdAndRemove(id);
+        }
+        // console.log(data);
+        return res.json({status: 'ok', data: data });
+    }catch(error){
+        console.log(error);
+        return res.json({status: 'error', error: error});
+    }
+
+
 })
 
 

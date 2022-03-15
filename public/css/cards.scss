@@ -1,0 +1,159 @@
+.card {
+    background-color: #F8F8FA;
+    width: 400px;
+    height: 460px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 15px;
+    font-family: 'Montserrat Alternates', sans-serif;
+    position: relative;
+    flex-direction: column;
+
+    .icon-green {
+        position: absolute;
+        left: 24px;
+        top: 20px;
+        height: 16px;
+        width: 110px;
+        background: #00949C 0% 0%;
+        border: none;
+        border-radius: 30px;
+        color: #F8F8FA;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            font: normal normal bold 9px Raleway;
+        }
+    }
+
+    .icon-red {
+        position: absolute;
+        left: 24px;
+        top: 45px;
+        height: 16px;
+        width: 85px;
+        background: #F76262 0% 0%;
+        border: none;
+        border-radius: 30px;
+        color: #F8F8FA;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            font: normal normal bold 9px Raleway;
+        }
+    }
+
+    .icon-grey {
+        position: absolute;
+        left: 24px;
+        top: 20px;
+        height: 16px;
+        width: 110px;
+        background: #9DA4AF 0% 0%;
+        border: none;
+        border-radius: 30px;
+        color: #F8F8FA;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            font: normal normal bold 9px Raleway;
+        }
+
+    }
+
+    .img {
+        margin-top: 20px;
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .text {
+        margin-left: 24px;
+        margin-top: -20px;
+
+        .title {
+            color: #22252A;
+            text-align: left;
+            font: normal normal bold 24px/29px Montserrat Alternates;
+            opacity: 1;
+        }
+
+        .heart-icon {
+            position: absolute;
+            top: 260px;
+            right: 30px;
+            width: 30px;
+            height: 30px;
+        }
+
+        .equip {
+            margin-top: -20px;
+            color: #9DA4AF;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            font-weight: lighter;
+        }
+
+        .price-container {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+
+            .value {
+                margin-top: 12px;
+
+            }
+
+            .price {
+
+                width: 60px;
+                margin-left: 5px;
+                margin-top: 10px;
+                color: #22252A;
+            }
+
+            .mese {
+                margin-top: 25px;
+                margin-left: 5px;
+                font-family: 'Raleway', sans-serif;
+                color: #9DA4AF;
+                font-size: 16px/19px;
+                font-weight: lighter;
+
+            }
+
+        }
+    }
+
+    .button {
+        padding-top: 15px;
+
+        button {
+            margin-left: 50%;
+            transform: translateX(-50%);
+            background: #00ADB5 0% 0% no-repeat padding-box;
+            color: #F8F8FA;
+            border: none;
+            border-radius: 8px;
+            width: 360px;
+            height: 40px;
+            font-family: 'Raleway', sans-serif;
+        }
+    }
+
+}

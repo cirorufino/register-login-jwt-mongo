@@ -1,0 +1,48 @@
+// main: style.scss
+
+.card-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  
+    .cards {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+  
+      .layout {
+        display: flex;
+        flex-flow: row wrap;
+        width: 1680px;
+      }
+  
+      @media screen and (max-width: 1685px) {
+        .layout {
+          width: 1280px;
+        }
+      }
+  
+      @media screen and (max-width: 1264px) {
+        .layout {
+          width: 840px;
+        }
+      }
+  
+      @media screen and (max-width: 840px) {
+        .layout {
+          width: 420px;
+        }
+      }
+  
+  
+    }
+  
+  }
