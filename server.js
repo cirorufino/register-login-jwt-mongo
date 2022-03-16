@@ -18,8 +18,8 @@ const connectDB = require('./config/db');
 dotenv.config({ path: './config/config.env' });
 connectDB();
 
-app.use('/', require('./routes/get'));
-app.use('/', require('./routes/post'));
+app.use('/', require('./routes/index'));
+app.use('/', require('./routes/api'));
 
 app.listen(2000, () => { 
     console.log('Server starting at port: ', 2000)

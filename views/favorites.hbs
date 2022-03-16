@@ -3,11 +3,17 @@
         <div class="layout">
             {{#if data}}
                 {{#each data}}
-                    <card-element photo="{{this.photo}}" title="{{this.title}}" equip="{{this.equip}}" price="{{this.price}}"
-                        delivery="{{this.delivery}}" isOffer="{{this.isOffer}}" available="{{this.available}}" favorites="{{this.favorites}}" _id="{{this._id}}"></card-element>
+                    {{#if this.cards}}
+                    {{#each this.cards}}
+                        <card-element photo="{{this.photo}}" title="{{this.title}}" equip="{{this.equip}}" price="{{this.price}}"
+                            delivery="{{this.delivery}}" isOffer="{{this.isOffer}}" available="{{this.available}}" favorites="{{this.favorites}}" _id="{{this._id}}"></card-element>
+                    {{/each}}
+                    {{else}}
+                    <h1>Repository vuoto</h1>
+                    {{/if}}
                 {{/each}}
             {{else}}
-                <h1>Repository vuoto</h1>
+                <h1>Nessun dato</h1>
             {{/if}}
         </div>
     </div>

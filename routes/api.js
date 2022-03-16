@@ -5,11 +5,13 @@ const jwt = require ('jsonwebtoken');
 const JWT_SECRET = 'jhdyq9uyhbcnakqpud%/&($"FGTHEuhavjhb';
 const { check, validationResult} = require('express-validator');
 const bcrypt = require('bcrypt');
-
+const { requireAuth } = require('../middleware/authMiddleware');
 const User = require('../model/user');
 const Card = require('../model/card');
 const Favorites = require('../model/favorites');
+const jsonwebtoken = require('jsonwebtoken');
 
+//CREATE A JWT TOKEN -- FUNCTION
 const maxAge = 900;
 const createToken = (id, username) => {
     return jwt.sign({ id, username }, JWT_SECRET, {
@@ -96,7 +98,33 @@ router.post('/change-password', [
     }
 });
 
-//FAVORITES LIST
+// NOLOGGED CARDS 
+router.get('/cards', (req, res) => {
+    Card.find({}, (err, data) => {
+        if (!err) {
+            res.render('cards', {
+                data
+            });
+        } else {
+            console.log(err);
+        }
+    }).lean();
+});
+
+// LOGGED FAVORITES LIST
+router.get('/favorites', requireAuth, (req, res) => {
+    Favorites.find({}, (err, data) => {
+        if (!err) {
+            res.render('favorites', {
+                data
+            });
+        } else {
+            console.log(err);
+        }
+    }).lean();
+});
+
+// FAVORITES LIST -- POST 
 router.post('/favorites', async (req,res) =>{
     try{
         let token = req.cookies.jwt;
@@ -110,27 +138,38 @@ router.post('/favorites', async (req,res) =>{
             return res.json({
                 status: 'error'
             });
-        }
-
+        };
         let {id} = req.body;
+        let decodedToken = jwt.decode(token);
         let data = await Card.findById(id);
         if(data.favorites == "false"){
             await Card.findByIdAndUpdate(id, {
                 favorites: "true"
             });
             data.favorites = "true";
-            await Favorites.insertMany(data);
+            await Favorites.findOneAndUpdate({
+               username : decodedToken.username
+            } , {
+                $addToSet : {cards : data}
+            }, { 
+                upsert : true 
+            });
         }else{
             await Card.findByIdAndUpdate(id, {
                 favorites: "false"
             });
             data.favorites = "false";
-            await Favorites.findByIdAndRemove(id);
+            await Favorites.findOneAndUpdate({
+                username : decodedToken.username
+            }, {
+                $pull : { cards : {_id : data.id}}
+            });
         }
         return res.json({
             status: 'ok', data: data 
         });
     }catch(error){
+        console.log(error); 
         return res.json({
             status: 'error', error: error
         });
